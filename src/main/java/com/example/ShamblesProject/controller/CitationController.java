@@ -38,17 +38,18 @@ public class CitationController {
 		public Iterable<Citation>getCitation(){
 			return citationService.getCitation();		
 			}
-		/*-------------recuperer by id-------------------------------*/
-		@GetMapping("/citation/{id}")
-		public Citation getCitation(@PathVariable ("id") final Long id) {
-			Optional<Citation> Citation = citationService.getCitation(id);
-			if(Citation.isPresent()) {
-				return Citation.get();
-			}else {
-				return null;
+
+			/*-------------recuperer by id-------------------------------*/
+			@GetMapping("/citation/{id}")
+			public Citation getCitation(@PathVariable("id") final Long id) {
+				Optional<Citation> Citation = citationService.getCitation(id);
+				if (Citation.isPresent()) {
+					return Citation.get();
+				} else {
+					return null;
+				}
+
 			}
-			
-		}
 		
 		/*--------------------post -----------------------------------------------*/
 
@@ -61,10 +62,10 @@ public class CitationController {
 		
 		/*-----------------delete---------------------------------*/
 		/*-------------------je recuper le user qui est connecter ----------------------------------------------------*/
-		 @PostMapping("/citation/{id}/user")
+		 @DeleteMapping("/citation/{id}")
 		    public void deleteCitation(@PathVariable("id")  final Long id,
-		    		Citation citation){
-			 citationService.deletCitation(id,citation);
+		    		Citation citationn){
+			 citationService.deletCitation(id,citationn.getText());
 		    }
 		 
 		 /*------------------------------update------------------------------------------------*/
@@ -77,9 +78,5 @@ public class CitationController {
 		    		
 		    	
 		    }
-		 
-		
-	
-		
-		
+		 		
 }

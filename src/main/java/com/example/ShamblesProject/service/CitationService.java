@@ -39,10 +39,20 @@ public class CitationService {
 
 	/*----------pour supprimer un object--------------------*/
 	/*-------------------je recuper le user qui est connecter ----------------------------------------------------*/
-	public void deletCitation(final Long id, Citation citation) {
-		User user = userRepository.findById(id).get();
-		user.getCitations().remove(citation);
-		userRepository.save(user);
+	public User deletCitation(Long id, String username) {
+		Optional<User> userOptional = userRepository.findByUsername(username);
+		User user = null;
+		if (userOptional.isPresent()) {
+			Optional<Citation> citatiOptional = citationRepository.findById(id);
+			user = userOptional.get();
+			user.getCitations().remove(citatiOptional.get());
+			return userRepository.save(user);
+		}
+		return user;
+
+//		User user = userRepository.findById(id).get();
+//		user.getCitations().remove(citation);
+//		userRepository.save(user);
 
 	}
 	/*----------pour enregistrer tout les objects--------------------*/
@@ -54,7 +64,8 @@ public class CitationService {
 		User user = null;
 		if (userOptional.isPresent()) {
 			user = userOptional.get();
-			user.getCitations().add(citation);
+			citation.setUser(user);
+            user.getCitations().add(citation);
 			return userRepository.save(user);
 
 		}
